@@ -22,6 +22,13 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
         builder.Property(c => c.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(c => c.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasOne(x => x.Advert);//Her yorum bir ilana aittir.
+        builder.HasOne(x => x.BrandSerial);//Yorumu yapan kullanýcýnýn aracýnýn marka modeli
+        builder.HasOne(x => x.Parent);//Yorumlar da aðaç yapýsýnda tutulduðu için her yorumun bir üst yorumu vardýr.
+                                      //Eðer yoksa parentý kendisidir.
+        builder.HasOne(x => x.User);//Her yorum bir kullancýya aittir.
+        builder.HasOne(x => x.Tenant);//Her yorum bir tenant'a aittir.
+
         builder.HasQueryFilter(c => !c.DeletedDate.HasValue);
     }
 }

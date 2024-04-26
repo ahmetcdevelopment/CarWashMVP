@@ -24,6 +24,11 @@ public class AdvertConfiguration : IEntityTypeConfiguration<Advert>
         builder.Property(a => a.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(a => a.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasMany(x => x.AdvertItems);//Her ilanda birden fazla ilan item'i olabilir.
+        builder.HasOne(x => x.Car);//Her ilanda bir araba olabilir.
+        builder.HasOne(x => x.Tenant);//Her ilan bir tenant'a ait olabilir.
+        builder.HasMany(x => x.AdvertSettings);// Bir ilanda birden fazla ilan ayarý olabilir.
+
         builder.HasQueryFilter(a => !a.DeletedDate.HasValue);
     }
 }

@@ -18,6 +18,10 @@ public class OrderWasherConfiguration : IEntityTypeConfiguration<OrderWasher>
         builder.Property(ow => ow.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(ow => ow.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasOne(x => x.Tenant);//Her araç yýkamacýsýnýn bir tenant'ý vardýr.
+        builder.HasOne(x => x.WasherUser);//Her araç yýkamacýsý bir kullanýcýdýr.
+        builder.HasOne(x => x.Order);
+
         builder.HasQueryFilter(ow => !ow.DeletedDate.HasValue);
     }
 }

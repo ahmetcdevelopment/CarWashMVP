@@ -20,6 +20,9 @@ public class AdvertItemConfiguration : IEntityTypeConfiguration<AdvertItem>
         builder.Property(ai => ai.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(ai => ai.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasOne(ai => ai.Tenant);//Her ilan item'i bir tenant'a aittir.
+        builder.HasOne(ai => ai.Advert);//Her ilan item'i bir ilana aittir.
+
         builder.HasQueryFilter(ai => !ai.DeletedDate.HasValue);
     }
 }

@@ -21,6 +21,15 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.Property(t => t.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(t => t.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasMany(x => x.Adverts);
+        builder.HasMany(x => x.Orders);
+        builder.HasMany(x => x.OrderDetails);
+        builder.HasMany(x => x.OrderWashers);
+        builder.HasMany(x => x.Users);
+        builder.HasMany(x => x.AdvertItems);
+        builder.HasMany(x => x.Cars);
+        builder.HasMany(x => x.Comments);
+
         builder.HasQueryFilter(t => !t.DeletedDate.HasValue);
     }
 }

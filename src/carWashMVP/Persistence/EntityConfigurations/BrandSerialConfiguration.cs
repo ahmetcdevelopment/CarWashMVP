@@ -19,6 +19,10 @@ public class BrandSerialConfiguration : IEntityTypeConfiguration<BrandSerial>
         builder.Property(bs => bs.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(bs => bs.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasMany(bs => bs.Cars); //Her markaya ait birden fazla araç vardýr.
+        builder.HasOne(bs => bs.Parent);//Her markanýn bir üst markasý vardýr.
+                                        //Eðer markanýn bir üst markasý yoksa parentId'si 0'dýr.
+
         builder.HasQueryFilter(bs => !bs.DeletedDate.HasValue);
     }
 }

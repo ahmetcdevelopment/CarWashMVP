@@ -17,6 +17,9 @@ public class UserTenantConfiguration : IEntityTypeConfiguration<UserTenant>
         builder.Property(ut => ut.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(ut => ut.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasOne(x => x.User);
+        builder.HasOne(x => x.Tenant);
+
         builder.HasQueryFilter(ut => !ut.DeletedDate.HasValue);
     }
 }

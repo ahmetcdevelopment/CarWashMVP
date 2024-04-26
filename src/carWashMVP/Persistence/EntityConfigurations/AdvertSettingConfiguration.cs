@@ -19,6 +19,8 @@ public class AdvertSettingConfiguration : IEntityTypeConfiguration<AdvertSetting
         builder.Property(ads=>ads.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(ads=>ads.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasOne(x => x.Advert);//Her ilan ayarý bir ilana aittir.
+
         builder.HasQueryFilter(ads => !ads.DeletedDate.HasValue);
     }
 }

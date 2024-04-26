@@ -52,8 +52,10 @@ builder
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
     });
-
-builder.Services.AddDistributedMemoryCache();
+//InMemoryCache kullanmak için
+//builder.Services.AddDistributedMemoryCache();
+//Redis ile cache kullanmak için
+builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhost:6379");
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(opt =>

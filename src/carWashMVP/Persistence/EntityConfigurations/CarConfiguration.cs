@@ -20,6 +20,9 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
         builder.Property(c => c.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(c => c.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasOne(x => x.Tenant);//Her Aracýn bir tenant'ý vardýr.
+        builder.HasOne(x => x.BrandSerial);//Her aracýn bir marka modeli vardýr.
+
         builder.HasQueryFilter(c => !c.DeletedDate.HasValue);
     }
 }

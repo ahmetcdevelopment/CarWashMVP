@@ -20,6 +20,9 @@ public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
         builder.Property(od => od.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(od => od.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasOne(x => x.Tenant);//Her sipariþ detayýnýn bir Müþteri grubu vardýr.
+        builder.HasOne(x => x.AdvertItem);//Her sipariþ detayýnýn bir ilan detayý vardýr.
+
         builder.HasQueryFilter(od => !od.DeletedDate.HasValue);
     }
 }

@@ -28,6 +28,14 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(o => o.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasOne(x => x.Tenant);//Her sipariþ bir tenant'a aittir.
+        builder.HasOne(x => x.UserCar);//Her sipariþte kullanýcýnýn bir aracý vardýr.
+        builder.HasOne(x => x.WasherCar);//Aracý yýkamaya giden yýkamacýnýn aracý.
+        builder.HasMany(x => x.OrderDetails);//Her sipariþin detaylarý vardýr
+                                             //Sipariþin detaylarý pasta-cila gibidir.
+        builder.HasMany(x => x.WasherUsers);//Aracý yýkayan ekipteki userlar.
+
+
         builder.HasQueryFilter(o => !o.DeletedDate.HasValue);
     }
 }
