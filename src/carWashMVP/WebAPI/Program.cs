@@ -15,6 +15,7 @@ using NArchitecture.Core.Security.WebApi.Swagger.Extensions;
 using Persistence;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using WebAPI;
+using WebAPI.Helpers;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -52,10 +53,16 @@ builder
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
     });
-//InMemoryCache kullanmak için
-//builder.Services.AddDistributedMemoryCache();
-//Redis ile cache kullanmak için
-builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhost:6379");
+
+
+#region IF REDIS SERVER IS AVAILABLE
+var redisIsAvaible = CacheHelper.CheckRedisAvailability("localhost:6379");
+if (redisIsAvaible)
+    builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhost:6379");
+else
+    builder.Services.AddDistributedMemoryCache();
+#endregion
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(opt =>
@@ -99,16 +106,18 @@ if (app.Environment.IsProduction())
     app.ConfigureCustomExceptionMiddleware();
 
 app.UseDbMigrationApplier();
-
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+
 const string webApiConfigurationSection = "WebAPIConfiguration";
 WebApiConfiguration webApiConfiguration =
     app.Configuration.GetSection(webApiConfigurationSection).Get<WebApiConfiguration>()
     ?? throw new InvalidOperationException($"\"{webApiConfigurationSection}\" section cannot found in configuration.");
+webApiConfiguration.AllowedOrigins = new[] { "https://localhost:7138/" };
 app.UseCors(opt => opt.WithOrigins(webApiConfiguration.AllowedOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
 app.UseResponseLocalization();
